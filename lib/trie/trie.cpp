@@ -20,6 +20,7 @@
 #include "trie.h"
 #include "trie_node.h"
 
+#include <cctype>
 #include <iostream>
 #include <memory>
 
@@ -130,6 +131,71 @@ std::vector<int> Trie::getValidEndings(const std::string& text, int startPos)
     }
 
     return valid_endings;
+}
+
+/**
+ * @brief Check if any word in the Trie matches the pattern
+ *
+ * @param pattern Pattern to check
+ * @return true if any word in the Trie matches the pattern, false otherwise
+ */
+bool Trie::matchPattern(const std::string& pattern)
+{
+    return this->matchPattern(pattern, 0, this->root.get());
+}
+
+/**
+ * @brief Check if any word in the Trie matches the pattern
+ *
+ * @param pattern Pattern to check
+ * @param index Starting index in the pattern
+ * @param node A Trie node to start from
+ * @return true if any word in the Trie matches the pattern, false otherwise
+ */
+bool Trie::matchPattern(const std::string& pattern, int index, TrieNode* node)
+{
+    if(index == pattern.length()) // End of pattern
+    {
+        // Match only if this is a word
+        return node->isEndOfWord();
+    }
+
+    char ch = pattern[index];
+
+    if(ch == '*') // wildcard
+    {
+        // Try all possible characters
+        for(char c = 'a'; c <= 'z'; c++)
+        {
+            if(!node->hasChild(c))
+            {
+                continue;
+            }
+
+            if(this->matchPattern(pattern, index + 1, node->getChild(c)))
+            {
+                return true;
+            }
+        }
+    }
+    else
+    {
+        // Safety check: check if a character is a letter in the English alphabet
+        // Cast to unsigned char in order for it to work correctly
+        if(!std::isalpha(static_cast<unsigned char>(ch)))
+        {
+            return false;
+        }
+
+        if(!node->hasChild(ch))
+        {
+            return false;
+        }
+
+        return this->matchPattern(pattern, index + 1, node->getChild(ch));
+    }
+
+    return false;
 }
 
 /**

@@ -80,6 +80,23 @@ public:
     std::vector<int> getValidEndings(const std::string& text, int startPos = 0);
 
     /**
+     * @brief Check if any word in the Trie matches the pattern
+     *
+     * @param pattern Pattern to check
+     * @return true if any word in the Trie matches the pattern, false otherwise
+     */
+    bool matchPattern(const std::string& pattern);
+    /**
+     * @brief Check if any word in the Trie matches the pattern
+     *
+     * @param pattern Pattern to check
+     * @param index Starting index in the pattern
+     * @param node A Trie node to start from
+     * @return true if any word in the Trie matches the pattern, false otherwise
+     */
+    bool matchPattern(const std::string& pattern, int index, TrieNode* node);
+
+    /**
      * @brief Print all words in the Trie starting from a root node
      *
      */
