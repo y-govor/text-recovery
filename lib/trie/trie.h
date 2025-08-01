@@ -97,6 +97,25 @@ public:
     bool matchPattern(const std::string& pattern, int index, TrieNode* node);
 
     /**
+     * @brief Collect all words in Trie that match a given pattern
+     *
+     * @param pattern Pattern that words should match
+     * @return A list of words that match a given pattern
+     */
+    std::vector<std::string> collectMatches(const std::string& pattern);
+    /**
+     * @brief Collect all words in Trie that match a given pattern
+     *
+     * @param pattern Pattern that words should match
+     * @param index Starting index in the pattern
+     * @param node A Trie node to start from
+     * @param current Part of a word that has been built
+     * @param results A list of words that match a given pattern
+     */
+    void collectMatches(const std::string& pattern, int index, TrieNode* node,
+                        const std::string& current, std::vector<std::string>& results);
+
+    /**
      * @brief Print all words in the Trie starting from a root node
      *
      */

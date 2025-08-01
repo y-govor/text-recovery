@@ -23,6 +23,7 @@
 #include <cctype>
 #include <iostream>
 #include <memory>
+#include <vector>
 
 /**
  * @brief Default constructor
@@ -196,6 +197,77 @@ bool Trie::matchPattern(const std::string& pattern, int index, TrieNode* node)
     }
 
     return false;
+}
+
+/**
+ * @brief Collect all words in Trie that match a given pattern
+ *
+ * @param pattern Pattern that words should match
+ * @return A list of words that match a given pattern
+ */
+std::vector<std::string> Trie::collectMatches(const std::string& pattern)
+{
+    std::vector<std::string> results;
+    this->collectMatches(pattern, 0, this->root.get(), "", results);
+    return results;
+}
+
+/**
+ * @brief Collect all words in Trie that match a given pattern
+ *
+ * @param pattern Pattern that words should match
+ * @param index Starting index in the pattern
+ * @param node A Trie node to start from
+ * @param current Part of a word that has been built
+ * @param results A list of words that match a given pattern
+ */
+void Trie::collectMatches(const std::string& pattern, int index, TrieNode* node,
+                          const std::string& current, std::vector<std::string>& results)
+{
+    if(index == pattern.length()) // End of pattern
+    {
+        // If this is the end of the word, add it to the list
+        if(node->isEndOfWord())
+        {
+            results.push_back(current);
+        }
+
+        return;
+    }
+
+    char ch = pattern[index];
+
+    if(ch == '*') // wildcard
+    {
+        // Try all possible characters
+        for(char c = 'a'; c <= 'z'; c++)
+        {
+            if(!node->hasChild(c))
+            {
+                continue;
+            }
+
+            this->collectMatches(pattern, index + 1, node->getChild(c), current + c, results);
+        }
+    }
+    else
+    {
+        // Safety check: check if a character is a letter in the English alphabet
+        // Cast to unsigned char in order for it to work correctly
+        if(!std::isalpha(static_cast<unsigned char>(ch)))
+        {
+            return;
+        }
+
+        if(!node->hasChild(ch))
+        {
+            return;
+        }
+
+        this->collectMatches(pattern, index + 1, node->getChild(ch), current + ch, results);
+    }
+
+    return;
 }
 
 /**
