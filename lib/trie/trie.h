@@ -24,6 +24,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 /**
  * @brief Class that represents a Trie data structure
@@ -65,6 +66,18 @@ public:
      * @return true if Trie contains a word that starts with a given prefix, false otherwise
      */
     bool startsWith(const std::string& prefix) const;
+
+    /**
+     * @brief Get a list of indices of all possible word endings. For example:
+     * If given the text "themanran", the Trie contains words "the" and "them",
+     * and the starting position is 0, the list will contain indices 3 and 4,
+     * as the text can be split into either "the" or "them" from the beginning
+     *
+     * @param text Text that contains multiple words with spaces removed
+     * @param startPos Starting position (default is 0)
+     * @return A list of indices where a word might end
+     */
+    std::vector<int> getValidEndings(const std::string& text, int startPos = 0);
 
     /**
      * @brief Print all words in the Trie starting from a root node

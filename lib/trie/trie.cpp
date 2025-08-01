@@ -98,6 +98,41 @@ bool Trie::startsWith(const std::string& prefix) const
 }
 
 /**
+ * @brief Get a list of indices of all possible word endings. For example:
+ * If given the text "themanran", the Trie contains words "the" and "them",
+ * and the starting position is 0, the list will contain indices 3 and 4,
+ * as the text can be split into either "the" or "them" from the beginning
+ *
+ * @param text Text that contains multiple words with spaces removed
+ * @param startPos Starting position (default is 0)
+ * @return A list of indices where a word might end
+ */
+std::vector<int> Trie::getValidEndings(const std::string& text, int startPos)
+{
+    // A list of valid endings
+    std::vector<int> valid_endings;
+
+    TrieNode* node = this->root.get();
+
+    for(int i = startPos; i < text.length(); i++)
+    {
+        if(!node->hasChild(text[i]))
+        {
+            break;
+        }
+
+        node = node->getChild(text[i]);
+
+        if(node->isEndOfWord())
+        {
+            valid_endings.push_back(i + 1);
+        }
+    }
+
+    return valid_endings;
+}
+
+/**
  * @brief Print all words in the Trie starting from a root node
  *
  */
