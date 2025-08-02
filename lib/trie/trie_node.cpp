@@ -26,7 +26,7 @@
  * @brief Default constructor
  *
  */
-TrieNode::TrieNode() : is_end_of_word(false), children(26) {}
+TrieNode::TrieNode() : is_end_of_word(false), number_of_children(0), children(26) {}
 
 /**
  * @brief Check if this node marks the end of a word
@@ -46,6 +46,16 @@ bool TrieNode::isEndOfWord() const
 void TrieNode::setEndOfWord(bool is_end_of_word)
 {
     this->is_end_of_word = is_end_of_word;
+}
+
+/**
+ * @brief Get the number of children
+ *
+ * @return size_t The number of children
+ */
+size_t TrieNode::numberOfChildren()
+{
+    return this->number_of_children;
 }
 
 /**
@@ -79,8 +89,9 @@ void TrieNode::createChild(char c)
 {
     char ch = std::tolower(c);
 
-    if(!this->children[ch - 'a'])
+    if(!this->hasChild(c))
     {
         this->children[ch - 'a'] = std::make_unique<TrieNode>();
+        this->number_of_children++;
     }
 }

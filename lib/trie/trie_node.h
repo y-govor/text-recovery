@@ -20,6 +20,7 @@
 #ifndef TRIE_NODE_H_INCLUDED
 #define TRIE_NODE_H_INCLUDED
 
+#include <cstddef>
 #include <memory>
 #include <vector>
 
@@ -35,6 +36,11 @@ private:
      *
      */
     bool is_end_of_word;
+    /**
+     * @brief Number of existing children (elements that are not nullptr)
+     *
+     */
+    size_t number_of_children;
     /**
      * @brief Children of the node
      *
@@ -60,6 +66,13 @@ public:
      * @param is_end_of_word whether this node represents the end of a word
      */
     void setEndOfWord(bool is_end_of_word);
+
+    /**
+     * @brief Get the number of children
+     *
+     * @return size_t The number of children
+     */
+    size_t numberOfChildren();
 
     /**
      * @brief Check whether a child node exists for the given character

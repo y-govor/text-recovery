@@ -22,7 +22,9 @@
 
 #include "trie_node.h"
 
+#include <istream>
 #include <memory>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -127,6 +129,34 @@ public:
      * @param prefix Prefix of a word
      */
     void print(TrieNode* node, const std::string& prefix) const;
+
+    /**
+     * @brief Serialize an entire Trie
+     *
+     * @param os Output stream
+     */
+    void serialize(std::ostream& os);
+    /**
+     * @brief Serialize a Trie node recursively
+     *
+     * @param os Output stream
+     * @param node A Trie node to start from
+     */
+    void serializeNode(std::ostream& os, TrieNode* node);
+
+    /**
+     * @brief Deserialize an entire Trie
+     *
+     * @param is Input stream
+     */
+    void deserialize(std::istream& is);
+    /**
+     * @brief Deserialize a Trie node recursively
+     *
+     * @param is Input stream
+     * @param node A Trie node to start from
+     */
+    void deserializeNode(std::istream& is, TrieNode* node);
 };
 
 #endif // TRIE_H_INCLUDED
