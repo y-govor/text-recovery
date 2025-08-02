@@ -300,3 +300,86 @@ void Trie::print(TrieNode* node, const std::string& prefix) const
         }
     }
 }
+
+/**
+ * @brief Serialize an entire Trie
+ *
+ * @param os Output stream
+ */
+void Trie::serialize(std::ostream& os)
+{
+    this->serializeNode(os, this->root.get());
+}
+
+/**
+ * @brief Serialize a Trie node recursively
+ *
+ * @param os Output stream
+ * @param node A Trie node to start from
+ */
+void Trie::serializeNode(std::ostream& os, TrieNode* node)
+{
+    if(node == nullptr)
+    {
+        return;
+    }
+
+    bool is_end_of_word = node->isEndOfWord();
+    // Cast size_t (unsigned 64-bit) to unsigned char (8-bit) to reduce file size
+    unsigned char number_of_children = static_cast<unsigned char>(node->numberOfChildren());
+
+    // Write whether this node denotes the end of the word and the
+    // number of existing children in the node to the output stream
+    os.write(reinterpret_cast<char*>(&is_end_of_word), sizeof(is_end_of_word));
+    os.write(reinterpret_cast<char*>(&number_of_children), sizeof(number_of_children));
+
+    // Recursively serialize all children in the node
+    for(char c = 'a'; c <= 'z'; c++)
+    {
+        if(node->hasChild(c))
+        {
+            os.write(reinterpret_cast<char*>(&c), sizeof(c));
+            this->serializeNode(os, node->getChild(c));
+        }
+    }
+}
+
+/**
+ * @brief Deserialize an entire Trie
+ *
+ * @param is Input stream
+ */
+void Trie::deserialize(std::istream& is)
+{
+    this->deserializeNode(is, this->root.get());
+}
+
+/**
+ * @brief Deserialize a Trie node recursively
+ *
+ * @param is Input stream
+ * @param node A Trie node to start from
+ */
+void Trie::deserializeNode(std::istream& is, TrieNode* node)
+{
+    bool is_end_of_word;
+    unsigned char number_of_children;
+
+    // Read whether this node denotes the end of the word and the
+    // number of existing children in the node from the input stream
+    is.read(reinterpret_cast<char*>(&is_end_of_word), sizeof(is_end_of_word));
+    is.read(reinterpret_cast<char*>(&number_of_children), sizeof(number_of_children));
+
+    node->setEndOfWord(is_end_of_word);
+
+    // Recursively deserialize all children
+    for(unsigned char i = 0; i < number_of_children; i++)
+    {
+        // Read what character the child node is
+        char c;
+        is.read(reinterpret_cast<char*>(&c), sizeof(c));
+
+        node->createChild(c);
+        this->deserializeNode(is, node->getChild(c));
+    }
+}
