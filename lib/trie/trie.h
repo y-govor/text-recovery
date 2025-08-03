@@ -79,7 +79,7 @@ public:
      * @param startPos Starting position (default is 0)
      * @return A list of indices where a word might end
      */
-    std::vector<int> getValidEndings(const std::string& text, int startPos = 0);
+    std::vector<int> getValidEndings(const std::string& text, int startPos = 0) const;
 
     /**
      * @brief Check if any word in the Trie matches the pattern
@@ -87,7 +87,7 @@ public:
      * @param pattern Pattern to check
      * @return true if any word in the Trie matches the pattern, false otherwise
      */
-    bool matchPattern(const std::string& pattern);
+    bool matchPattern(const std::string& pattern) const;
     /**
      * @brief Check if any word in the Trie matches the pattern
      *
@@ -96,7 +96,7 @@ public:
      * @param node A Trie node to start from
      * @return true if any word in the Trie matches the pattern, false otherwise
      */
-    bool matchPattern(const std::string& pattern, int index, TrieNode* node);
+    bool matchPattern(const std::string& pattern, int index, TrieNode* node) const;
 
     /**
      * @brief Collect all words in Trie that match a given pattern
@@ -104,7 +104,7 @@ public:
      * @param pattern Pattern that words should match
      * @return A list of words that match a given pattern
      */
-    std::vector<std::string> collectMatches(const std::string& pattern);
+    std::vector<std::string> collectMatches(const std::string& pattern) const;
     /**
      * @brief Collect all words in Trie that match a given pattern
      *
@@ -115,7 +115,7 @@ public:
      * @param results A list of words that match a given pattern
      */
     void collectMatches(const std::string& pattern, int index, TrieNode* node,
-                        const std::string& current, std::vector<std::string>& results);
+                        const std::string& current, std::vector<std::string>& results) const;
 
     /**
      * @brief Print all words in the Trie starting from a root node
@@ -135,14 +135,14 @@ public:
      *
      * @param os Output stream
      */
-    void serialize(std::ostream& os);
+    void serialize(std::ostream& os) const;
     /**
      * @brief Serialize a Trie node recursively
      *
      * @param os Output stream
      * @param node A Trie node to start from
      */
-    void serializeNode(std::ostream& os, TrieNode* node);
+    void serializeNode(std::ostream& os, TrieNode* node) const;
 
     /**
      * @brief Deserialize an entire Trie
