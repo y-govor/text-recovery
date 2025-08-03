@@ -109,7 +109,7 @@ bool Trie::startsWith(const std::string& prefix) const
  * @param startPos Starting position (default is 0)
  * @return A list of indices where a word might end
  */
-std::vector<int> Trie::getValidEndings(const std::string& text, int startPos)
+std::vector<int> Trie::getValidEndings(const std::string& text, int startPos) const
 {
     // A list of valid endings
     std::vector<int> valid_endings;
@@ -140,7 +140,7 @@ std::vector<int> Trie::getValidEndings(const std::string& text, int startPos)
  * @param pattern Pattern to check
  * @return true if any word in the Trie matches the pattern, false otherwise
  */
-bool Trie::matchPattern(const std::string& pattern)
+bool Trie::matchPattern(const std::string& pattern) const
 {
     return this->matchPattern(pattern, 0, this->root.get());
 }
@@ -153,7 +153,7 @@ bool Trie::matchPattern(const std::string& pattern)
  * @param node A Trie node to start from
  * @return true if any word in the Trie matches the pattern, false otherwise
  */
-bool Trie::matchPattern(const std::string& pattern, int index, TrieNode* node)
+bool Trie::matchPattern(const std::string& pattern, int index, TrieNode* node) const
 {
     if(index == pattern.length()) // End of pattern
     {
@@ -205,7 +205,7 @@ bool Trie::matchPattern(const std::string& pattern, int index, TrieNode* node)
  * @param pattern Pattern that words should match
  * @return A list of words that match a given pattern
  */
-std::vector<std::string> Trie::collectMatches(const std::string& pattern)
+std::vector<std::string> Trie::collectMatches(const std::string& pattern) const
 {
     std::vector<std::string> results;
     this->collectMatches(pattern, 0, this->root.get(), "", results);
@@ -222,7 +222,7 @@ std::vector<std::string> Trie::collectMatches(const std::string& pattern)
  * @param results A list of words that match a given pattern
  */
 void Trie::collectMatches(const std::string& pattern, int index, TrieNode* node,
-                          const std::string& current, std::vector<std::string>& results)
+                          const std::string& current, std::vector<std::string>& results) const
 {
     if(index == pattern.length()) // End of pattern
     {
@@ -306,7 +306,7 @@ void Trie::print(TrieNode* node, const std::string& prefix) const
  *
  * @param os Output stream
  */
-void Trie::serialize(std::ostream& os)
+void Trie::serialize(std::ostream& os) const
 {
     this->serializeNode(os, this->root.get());
 }
@@ -317,7 +317,7 @@ void Trie::serialize(std::ostream& os)
  * @param os Output stream
  * @param node A Trie node to start from
  */
-void Trie::serializeNode(std::ostream& os, TrieNode* node)
+void Trie::serializeNode(std::ostream& os, TrieNode* node) const
 {
     if(node == nullptr)
     {
