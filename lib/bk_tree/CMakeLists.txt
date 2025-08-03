@@ -16,5 +16,5 @@ target_include_directories(BKTreeLibrary PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_sources(
     BKTreeLibrary PUBLIC
     edit_distance.cpp
-    bk_node.cpp
+    bk_tree_node.cpp
     bk_tree.cpp)
