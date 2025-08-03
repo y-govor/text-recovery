@@ -53,7 +53,7 @@ void TrieNode::setEndOfWord(bool is_end_of_word)
  *
  * @return size_t The number of children
  */
-size_t TrieNode::numberOfChildren()
+size_t TrieNode::numberOfChildren() const
 {
     return this->number_of_children;
 }

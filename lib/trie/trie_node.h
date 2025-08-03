@@ -72,7 +72,7 @@ public:
      *
      * @return size_t The number of children
      */
-    size_t numberOfChildren();
+    size_t numberOfChildren() const;
 
     /**
      * @brief Check whether a child node exists for the given character
