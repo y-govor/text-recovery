@@ -20,7 +20,9 @@
 #ifndef BK_TREE_NODE_H_INCLUDED
 #define BK_TREE_NODE_H_INCLUDED
 
+#include <istream>
 #include <memory>
+#include <ostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -104,6 +106,20 @@ public:
      */
     void find(const std::string& query, unsigned int tolerance,
               std::vector<std::string>& results) const;
+
+    /**
+     * @brief Seerialize current node
+     *
+     * @param os Output stream
+     */
+    void serialize(std::ostream& os) const;
+
+    /**
+     * @brief Deserialize current node
+     *
+     * @param is Input stream
+     */
+    void deserialize(std::istream& is);
 };
 
 #endif // BK_TREE_NODE_H_INCLUDED

@@ -61,3 +61,29 @@ std::vector<std::string> BKTree::find(const std::string& query, unsigned int tol
     this->root.get()->find(query, tolerance, results);
     return results;
 }
+
+/**
+ * @brief Serialize an entire BK-tree
+ *
+ * @param os Output stream
+ */
+void BKTree::serialize(std::ostream& os) const
+{
+    if(this->root == nullptr)
+    {
+        return;
+    }
+
+    this->root.get()->serialize(os);
+}
+
+/**
+ * @brief Deserialize an entire BK-tree
+ *
+ * @param is Input stream
+ */
+void BKTree::deserialize(std::istream& is)
+{
+    this->root = std::make_unique<BKTreeNode>();
+    this->root.get()->deserialize(is);
+}

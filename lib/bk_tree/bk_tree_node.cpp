@@ -139,3 +139,65 @@ void BKTreeNode::find(const std::string& query, unsigned int tolerance,
         }
     }
 }
+
+/**
+ * @brief Seerialize current node
+ *
+ * @param os Output stream
+ */
+void BKTreeNode::serialize(std::ostream& os) const
+{
+    // Get the length of the word
+    unsigned int word_len = static_cast<unsigned int>(this->word.size());
+
+    // Write the length of the word and the word itself
+    os.write(reinterpret_cast<char*>(&word_len), sizeof(word_len));
+    os.write(&this->word[0], word_len);
+
+    // Write the number of children the current node has
+    unsigned int num_children = static_cast<unsigned int>(this->children.size());
+    os.write(reinterpret_cast<char*>(&num_children), sizeof(num_children));
+
+    // Serialize children
+    for(const auto& it : children)
+    {
+        // Write the edit distance of the child node
+        unsigned short distance = static_cast<unsigned short>(it.first);
+        os.write(reinterpret_cast<char*>(&distance), sizeof(distance));
+
+        // Serialize the child node
+        it.second.get()->serialize(os);
+    }
+}
+
+/**
+ * @brief Deserialize current node
+ *
+ * @param is Input stream
+ */
+void BKTreeNode::deserialize(std::istream& is)
+{
+    // Read the length of the word
+    unsigned int word_len;
+    is.read(reinterpret_cast<char*>(&word_len), sizeof(word_len));
+
+    // Read the word
+    this->word.resize(word_len);
+    is.read(&this->word[0], word_len);
+
+    // Read the number of child nodes
+    unsigned int num_children;
+    is.read(reinterpret_cast<char*>(&num_children), sizeof(num_children));
+
+    // Deserialize child nodes
+    for(unsigned int i = 0; i < num_children; i++)
+    {
+        // Read the edit distance of the child node
+        unsigned short distance;
+        is.read(reinterpret_cast<char*>(&distance), sizeof(distance));
+
+        // Create and deserialize the child node
+        this->children[distance] = std::make_unique<BKTreeNode>();
+        this->children[distance].get()->deserialize(is);
+    }
+}

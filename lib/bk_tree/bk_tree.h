@@ -22,7 +22,9 @@
 
 #include "bk_tree_node.h"
 
+#include <istream>
 #include <memory>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -57,6 +59,20 @@ public:
      * @return A list of matching words
      */
     std::vector<std::string> find(const std::string& query, unsigned int tolerance = 2) const;
+
+    /**
+     * @brief Serialize an entire BK-tree
+     *
+     * @param os Output stream
+     */
+    void serialize(std::ostream& os) const;
+
+    /**
+     * @brief Deserialize an entire BK-tree
+     *
+     * @param is Input stream
+     */
+    void deserialize(std::istream& is);
 };
 
 #endif // BK_TREE_H_INCLUDED
