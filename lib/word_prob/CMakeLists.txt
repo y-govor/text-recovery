@@ -15,4 +15,5 @@ target_include_directories(WordProbLibrary PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_sources(
     WordProbLibrary PUBLIC
-    word_prob.cpp)
+    word_prob.cpp
+    word_context_analyzer.cpp)
