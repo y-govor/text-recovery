@@ -60,3 +60,13 @@ std::string Argument::getValue() const
 {
     return this->value;
 }
+
+/**
+ * @brief Set argument value
+ *
+ * @param value Argument value
+ */
+void Argument::setValue(const std::string& value)
+{
+    this->value = value;
+}

@@ -75,6 +75,13 @@ public:
      * @return Argument value
      */
     std::string getValue() const;
+
+    /**
+     * @brief Set argument value
+     *
+     * @param value Argument value
+     */
+    void setValue(const std::string& value);
 };
 
 #endif // ARGUMENT_H_INCLUDED
