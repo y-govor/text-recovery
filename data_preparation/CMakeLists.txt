@@ -8,4 +8,7 @@ project(
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(prepare_data
+    arg_parser_ex.cpp
     main.cpp)
+
+target_link_libraries(prepare_data ArgParserLibrary)
