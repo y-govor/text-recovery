@@ -76,7 +76,7 @@ public:
      */
     virtual void parse();
 
-private:
+protected:
     /**
      * @brief Get the index of the argument
      *
