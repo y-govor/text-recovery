@@ -19,6 +19,7 @@
 
 #include "arg_parser_ex.h"
 #include "argument.h"
+#include "tree_builder.h"
 
 #include <exception>
 #include <iostream>
@@ -94,6 +95,21 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    std::string value = short_arg_val.empty() ? long_arg_val : short_arg_val;
+
+    TreeBuilder tree_builder;
+
+    try
+    {
+        // Read a list of words from file into a collection
+        tree_builder.readWordlist(value);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << '\n';
+        return 1;
+    }
+
     // Get values for '-t' and '--build-trie'
     short_arg_val = arg_parser.getArgumentValue("-t");
     long_arg_val = arg_parser.getArgumentValue("--build-trie");
@@ -109,9 +125,18 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        std::string value = short_arg_val.empty() ? long_arg_val : short_arg_val;
+        value = short_arg_val.empty() ? long_arg_val : short_arg_val;
 
-        // Build a Trie (prefix tree)
+        try
+        {
+            // Build a Trie (prefix tree)
+            tree_builder.buildTrie(value);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Error: " << e.what() << '\n';
+            return 1;
+        }
     }
 
     // Get values for '-b' and '--build-bktree'
@@ -129,8 +154,17 @@ int main(int argc, char* argv[])
             return 1;
         }
 
-        std::string value = short_arg_val.empty() ? long_arg_val : short_arg_val;
+        value = short_arg_val.empty() ? long_arg_val : short_arg_val;
 
-        // Build a BK-tree
+        try
+        {
+            // Build a BK-tree
+            tree_builder.buildBKTree(value);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Error: " << e.what() << '\n';
+            return 1;
+        }
     }
 }
